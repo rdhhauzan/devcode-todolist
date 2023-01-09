@@ -6,7 +6,7 @@ ENV MYSQL_HOST=127.0.0.1
 ENV MYSQL_PORT=3306
 ENV MYSQL_USER=root
 ENV MYSQL_PASSWORD=
-ENV MYSQL_DBNAME=todo-list
+ENV MYSQL_DBNAME=todo4
 
 COPY package.json package-lock.json ./
 
