@@ -5,10 +5,8 @@ class Controller {
   static async createActivity(req, res) {
     const { email, title } = req.body;
     try {
-      if (!email || !title) {
-        throw { name: "FIELD_UNCOMPLETE" };
-      }
       const data = await activity.create({ email, title });
+
       res.status(201).send({
         status: "Success",
         message: "Success",
@@ -16,23 +14,19 @@ class Controller {
       });
     } catch (error) {
       console.log(error);
-      if (error.name === "FIELD_UNCOMPLETE") {
-        res.status(401).send({
-          status: res.statusCode,
-          message: "Please Fill all the fields!",
-        });
-      } else {
-        res.status(500).send({
-          status: res.statusCode,
-          message: error.message,
-        });
-      }
+      res.status(500).send({
+        status: res.statusCode,
+        message: error.message,
+      });
     }
   }
 
   static async getAllActivities(req, res) {
     try {
-      const getData = await activity.findAll();
+      const limit = req.query.limit ? req.query.limit : 1;
+      const getData = await activity.findAll({
+        limit: limit,
+      });
 
       res.status(200).json({
         status: "Success",
@@ -163,16 +157,13 @@ class Controller {
 
   // ! Todo Controller
   static async createTodo(req, res) {
-    const { title, activity_group_id, is_active } = req.body;
+    const { title, activity_group_id } = req.body;
     try {
-      if ((!title, !activity_group_id)) {
-        throw { name: "FIELD_UNCOMPLETE" };
-      }
       const data = await todo.create({
         title,
         activity_group_id,
         priority: "very-high",
-        is_active: "true",
+        is_active: true,
       });
 
       res.status(201).send({
@@ -182,29 +173,24 @@ class Controller {
       });
     } catch (error) {
       console.log(error);
-      if (error.name === "FIELD_UNCOMPLETE") {
-        res.status(401).send({
-          status: res.statusCode,
-          message: "Please Fill all the fields!",
-        });
-      } else {
-        res.status(500).send({
-          status: res.statusCode,
-          message: error.message,
-        });
-      }
+      res.status(500).send({
+        status: res.statusCode,
+        message: error.message,
+      });
     }
   }
 
   static async getAllTodos(req, res) {
     const { activity_group_id } = req.query;
     try {
+      const limit = req.query.limit ? req.query.limit : 1;
       const where = activity_group_id
         ? { activity_group_id: activity_group_id }
         : null;
 
       const getData = await todo.findAll({
         where: where,
+        limit: limit,
       });
       res.status(200).json({
         status: "Success",
