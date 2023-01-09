@@ -46,6 +46,119 @@ class Controller {
       });
     }
   }
+
+  static async getDetailActivity(req, res) {
+    try {
+      let getData = await activity.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+
+      if (!getData) {
+        throw { name: "DATA_NOT_FOUND" };
+      }
+
+      res.status(200).send({
+        status: "Success",
+        message: "Success",
+        data: getData,
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.name == "DATA_NOT_FOUND") {
+        res.status(404).send({
+          status: "Not Found",
+          message: `Activity with ID ${req.params.id} Not Found`,
+          data: {},
+        });
+      } else {
+        res.status(500).send({
+          status: res.statusCode,
+          message: error.message,
+        });
+      }
+    }
+  }
+
+  static async updateActivity(req, res) {
+    const { title } = req.body;
+    try {
+      let findData = await activity.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+
+      if (!findData) {
+        throw { name: "DATA_NOT_FOUND" };
+      }
+
+      await activity.update({ title }, { where: { id: req.params.id } });
+
+      let updatedData = await activity.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+
+      res.status(200).send({
+        status: "Success",
+        message: "Success",
+        data: updatedData,
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.name == "DATA_NOT_FOUND") {
+        res.status(404).send({
+          status: "Not Found",
+          message: `Activity with ID ${req.params.id} Not Found`,
+          data: {},
+        });
+      } else {
+        res.status(500).send({
+          status: res.statusCode,
+          message: error.message,
+        });
+      }
+    }
+  }
+
+  static async deleteActivity(req, res) {
+    try {
+      let findData = await activity.findOne({
+        where: {
+          id: req.params.id,
+        },
+      });
+
+      if (!findData) {
+        throw { name: "DATA_NOT_FOUND" };
+      }
+
+      await activity.destroy({ where: { id: req.params.id } });
+
+      res.status(200).json({
+        status: "Success",
+        message: "Success",
+        data: {},
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.name == "DATA_NOT_FOUND") {
+        res.status(404).send({
+          status: "Not Found",
+          message: `Activity with ID ${req.params.id} Not Found`,
+          data: {},
+        });
+      } else {
+        res.status(500).send({
+          status: res.statusCode,
+          message: error.message,
+        });
+      }
+    }
+  }
 }
 
 module.exports = Controller;

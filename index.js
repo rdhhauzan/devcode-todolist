@@ -18,6 +18,12 @@ app.post("/activity-groups", Controller.createActivity);
 
 app.get("/activity-groups", Controller.getAllActivities);
 
+app.get("/activity-groups/:id", Controller.getDetailActivity);
+
+app.patch("/activity-groups/:id", Controller.updateActivity);
+
+app.delete("/activity-groups/:id", Controller.deleteActivity);
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
