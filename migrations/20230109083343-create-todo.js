@@ -18,6 +18,9 @@ module.exports = {
       priority: {
         type: Sequelize.STRING,
       },
+      is_active: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       activity_group_id: DataTypes.INTEGER,
       title: DataTypes.STRING,
       priority: DataTypes.STRING,
+      is_active: DataTypes.STRING,
     },
     {
       sequelize,

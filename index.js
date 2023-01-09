@@ -24,6 +24,14 @@ app.patch("/activity-groups/:id", Controller.updateActivity);
 
 app.delete("/activity-groups/:id", Controller.deleteActivity);
 
+// ! Todo Routes
+
+app.post("/todo-items", Controller.createTodo);
+app.get("/todo-items", Controller.getAllTodos);
+app.get("/todo-items/:id", Controller.getDetailTodo);
+app.patch("/todo-items/:id", Controller.updateTodo);
+app.delete("/todo-items/:id", Controller.deleteTodo);
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
